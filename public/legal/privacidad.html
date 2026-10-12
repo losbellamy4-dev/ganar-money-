@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Política de privacidad | RemesaLista</title>
+  <link rel="canonical" href="{{BASE_URL}}/legal/privacidad">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site"><div class="wrap"><a class="brand" href="/">RemesaLista</a></div></header>
+  <main class="wrap">
+    <article class="guide">
+      <h1>Política de privacidad</h1>
+      <p><strong>Responsable:</strong> {{OWNER_NAME}} (NIF {{OWNER_TAX_ID}}), {{OWNER_ADDRESS}}. Contacto: {{OWNER_EMAIL}}.</p>
+
+      <h2>1. Datos de las remesas (nombres, IBAN, importes, mandatos)</h2>
+      <p>Cuando generas un fichero, los datos de los recibos se envían cifrados (HTTPS) a nuestro servidor, que construye el XML en memoria y te lo devuelve. <strong>No se guardan en ninguna base de datos, fichero ni registro.</strong> Respecto de estos datos actuamos como <em>encargado del tratamiento</em> por cuenta del usuario (la asociación o empresa que cobra), que es el responsable frente a sus socios o clientes. Las condiciones de ese encargo figuran en las <a href="/legal/condiciones">condiciones de uso</a>.</p>
+      <p>Solo registramos contadores anónimos (por ejemplo, «se ha generado una remesa de 30 recibos en el plan gratuito»), sin ningún dato personal.</p>
+
+      <h2>2. Datos que se quedan en tu navegador</h2>
+      <p>Si marcas «Recordar los datos del acreedor», el nombre, IBAN e identificador de tu entidad se guardan en el almacenamiento local de tu navegador, no en nuestro servidor. También se guarda ahí tu clave de licencia si la activas. Puedes borrarlos desmarcando la casilla, quitando la licencia o borrando los datos del sitio en tu navegador. No usamos cookies ni herramientas de analítica de terceros.</p>
+
+      <h2>3. Lista de espera</h2>
+      <p>Si nos dejas tu email para que te avisemos de novedades, lo tratamos con tu consentimiento (art. 6.1.a RGPD) solo para ese fin, junto con el tipo de organización y el banco si los indicas. Lo conservaremos hasta que retires el consentimiento o, como máximo, 12 meses después de enviarte el aviso.</p>
+
+      <h2>4. Clientes del plan Pro</h2>
+      <p>Si contratas Pro, tratamos tu email y los datos de la compra para prestarte el servicio y enviarte tu licencia (art. 6.1.b RGPD) y para cumplir obligaciones fiscales y contables (art. 6.1.c). El pago lo procesa Stripe; nosotros no vemos ni guardamos los datos de tu tarjeta. Conservamos los datos de facturación durante los plazos legales.</p>
+
+      <h2>5. Seguridad y límites de uso</h2>
+      <p>Para evitar abusos limitamos el número de peticiones. Para ello guardamos durante un máximo de dos días un identificador seudónimo derivado de tu dirección IP (un resumen criptográfico que cambia cada día), nunca la IP en claro.</p>
+
+      <h2>6. Proveedores</h2>
+      <p>Usamos un proveedor de alojamiento para el servidor, un proveedor de envío de correo para mandar licencias y avisos, y Stripe para los pagos. Algunos pueden tratar datos fuera del Espacio Económico Europeo con las garantías previstas en el RGPD (decisiones de adecuación o cláusulas contractuales tipo).</p>
+
+      <h2>7. Tus derechos</h2>
+      <p>Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a {{OWNER_EMAIL}}. También puedes reclamar ante la Agencia Española de Protección de Datos (www.aepd.es).</p>
+    </article>
+  </main>
+  <footer class="site"><div class="wrap"><nav aria-label="Legal"><a href="/legal/aviso-legal">Aviso legal</a><a href="/legal/privacidad">Privacidad</a><a href="/legal/condiciones">Condiciones</a></nav></div></footer>
+</body>
+</html>

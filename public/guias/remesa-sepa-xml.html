@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cómo generar una remesa de recibos SEPA en XML (guía paso a paso) | RemesaLista</title>
+  <meta name="description" content="Qué necesitas para cobrar recibos domiciliados, qué columnas debe tener tu Excel y cómo convertirlo en el XML pain.008 (Cuaderno 19.14) que acepta el banco. Guía práctica para asociaciones, clubes y pymes.">
+  <link rel="canonical" href="{{BASE_URL}}/guias/remesa-sepa-xml">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site"><div class="wrap"><a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0b6e4f"/><path d="M8 17l5 5 11-12" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>RemesaLista</a>
+    <nav class="top" aria-label="Principal"><a href="/">Generar remesa</a><a href="/calculadora-identificador-acreedor">Identificador de acreedor</a></nav></div></header>
+  <main class="wrap">
+    <article class="guide">
+      <h1>Cómo generar una remesa de recibos SEPA en XML</h1>
+      <p>Si cobras cuotas por domiciliación bancaria (una asociación, un club, una AMPA, una academia o una comunidad de propietarios), tu banco te pedirá un <strong>fichero de remesa</strong>. Esta guía explica qué es, qué datos necesitas y cómo prepararlo sin errores.</p>
+
+      <h2>1. Qué es una remesa SEPA de adeudos</h2>
+      <p>Es un fichero con todos los recibos que quieres cobrar en una misma fecha. Desde 2016 los bancos españoles lo piden en formato XML según la norma ISO 20022, en el mensaje <span class="mono">pain.008</span>. En España también se le llama <em>Cuaderno 19.14 XML</em> o «norma 19». Los antiguos ficheros de texto (Cuaderno 19 plano) ya no se usan para adeudos SEPA.</p>
+
+      <h2>2. Lo que necesitas antes de empezar</h2>
+      <ul>
+        <li><strong>Un contrato de adeudos SEPA con tu banco.</strong> Al firmarlo te asignan el <a href="/calculadora-identificador-acreedor">identificador de acreedor</a>.</li>
+        <li><strong>Un mandato firmado por cada socio o cliente</strong>: la orden de domiciliación en la que autoriza los cargos. Cada mandato tiene una <em>referencia</em> única y una <em>fecha de firma</em>.</li>
+        <li><strong>La lista de recibos</strong>: normalmente ya la tienes en un Excel o en Google Sheets.</li>
+      </ul>
+
+      <h2>3. Las columnas que debe tener tu Excel</h2>
+      <table>
+        <thead><tr><th scope="col">Columna</th><th scope="col">Ejemplo</th><th scope="col">Notas</th></tr></thead>
+        <tbody>
+          <tr><td>Nombre</td><td>Ana López Martín</td><td>Titular de la cuenta. Máximo 70 caracteres.</td></tr>
+          <tr><td>IBAN</td><td>ES91 2100 0418 4502 0005 1332</td><td>Con o sin espacios.</td></tr>
+          <tr><td>Importe</td><td>25,00</td><td>En euros, con coma o punto decimal.</td></tr>
+          <tr><td>Referencia del mandato</td><td>SOCIO-001</td><td>Única por socio y <strong>siempre la misma</strong> en cada remesa. Hasta 35 caracteres, sin espacios ni símbolos raros.</td></tr>
+          <tr><td>Fecha de firma del mandato</td><td>15/01/2024</td><td>No puede ser posterior a la fecha de cobro.</td></tr>
+          <tr><td>Concepto (opcional)</td><td>Cuota octubre</td><td>Lo que verá el socio en su extracto. Máximo 140 caracteres.</td></tr>
+          <tr><td>Tipo (opcional)</td><td>RCUR</td><td>RCUR (recurrente), FRST (primero), OOFF (único) o FNAL (último).</td></tr>
+        </tbody>
+      </table>
+      <p>Puedes <a href="/plantilla-remesa.csv" download>descargar una plantilla CSV</a> con estas columnas.</p>
+
+      <h2>4. RCUR, FRST, OOFF o FNAL</h2>
+      <p>Para cuotas periódicas, lo habitual es <span class="mono">RCUR</span> (recurrente). Desde la actualización de las normas SEPA de noviembre de 2016 ya no es obligatorio marcar el primer cobro de un mandato como <span class="mono">FRST</span>, aunque algunos bancos siguen aceptándolo o recomendándolo. Usa <span class="mono">OOFF</span> para un cobro puntual (por ejemplo, una inscripción única) y <span class="mono">FNAL</span> para el último cobro de un mandato.</p>
+
+      <h2>5. CORE o B2B</h2>
+      <p>El esquema <strong>CORE</strong> sirve para cobrar a cualquier persona o empresa, y es el que usan casi todas las asociaciones. El esquema <strong>B2B</strong> solo puede usarse entre empresas o autónomos: el deudor renuncia al derecho de devolución sin motivo, por eso su banco suele exigir que registre el mandato antes del primer cobro.</p>
+
+      <h2>6. La fecha de cobro</h2>
+      <p>Las normas actuales permiten presentar los adeudos CORE con un día hábil de antelación, pero cada banco fija su propio plazo de presentación en el contrato. Deja al menos dos o tres días hábiles de margen. Si la fecha cae en fin de semana o festivo bancario (calendario TARGET2), el banco la moverá al siguiente día hábil.</p>
+
+      <h2>7. Generar el fichero</h2>
+      <ol>
+        <li>Abre <a href="/">RemesaLista</a> e introduce los datos de quien cobra: nombre, IBAN e identificador de acreedor.</li>
+        <li>Copia las filas de tu Excel y pégalas (o sube el CSV). La herramienta detecta las columnas por sus títulos.</li>
+        <li>Revisa los errores y avisos: IBAN mal copiados, fechas imposibles, referencias de mandato con caracteres no admitidos… Corrígelos en tu Excel y vuelve a pegarlo.</li>
+        <li>Pulsa «Generar fichero XML» y guárdalo.</li>
+      </ol>
+
+      <h2>8. Subirlo al banco</h2>
+      <p>En la banca online de empresa o de asociación busca un apartado llamado <em>remesas</em>, <em>recibos</em>, <em>adeudos</em>, <em>cobros</em> o <em>envío de ficheros</em>. Sube el XML y comprueba que el número de recibos y el importe total coinciden con los de tu Excel. Subir el fichero no siempre equivale a enviarlo: muchos bancos piden firmarlo o autorizarlo después.</p>
+
+      <h2>9. Después del cobro</h2>
+      <p>Los socios pueden devolver un recibo CORE sin dar explicaciones durante las 8 semanas siguientes al cargo, y hasta 13 meses si no existía mandato. Lleva un registro de los recibos devueltos y de sus motivos. Si un recibo es rechazado, consulta la <a href="/guias/errores-remesa-sepa">guía de errores frecuentes</a>.</p>
+    </article>
+  </main>
+  <footer class="site"><div class="wrap"><nav aria-label="Legal"><a href="/legal/aviso-legal">Aviso legal</a><a href="/legal/privacidad">Privacidad</a><a href="/legal/condiciones">Condiciones</a></nav></div></footer>
+</body>
+</html>

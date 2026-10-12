@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Errores frecuentes en remesas SEPA y códigos de devolución (AC01, MD01, AM04…) | RemesaLista</title>
+  <meta name="description" content="Por qué el banco rechaza una remesa SEPA o devuelve recibos: errores de formato del fichero XML y significado de los códigos de devolución más habituales, con cómo evitarlos.">
+  <link rel="canonical" href="{{BASE_URL}}/guias/errores-remesa-sepa">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site"><div class="wrap"><a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0b6e4f"/><path d="M8 17l5 5 11-12" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>RemesaLista</a>
+    <nav class="top" aria-label="Principal"><a href="/">Generar remesa</a><a href="/guias/remesa-sepa-xml">Guía</a></nav></div></header>
+  <main class="wrap">
+    <article class="guide">
+      <h1>Errores frecuentes en remesas SEPA y cómo evitarlos</h1>
+      <p>Hay dos tipos de problema: que el banco <strong>rechace el fichero entero</strong> al subirlo (casi siempre por formato) o que <strong>devuelva recibos concretos</strong> después (por motivos de cada cuenta). Esta guía cubre los dos.</p>
+
+      <h2>Cuando el banco rechaza el fichero</h2>
+      <table>
+        <thead><tr><th scope="col">Causa</th><th scope="col">Cómo evitarla</th></tr></thead>
+        <tbody>
+          <tr><td>Caracteres no admitidos (ñ, tildes, &amp;, comillas tipográficas, emojis) en nombres, conceptos o referencias.</td><td>El estándar SEPA solo admite letras latinas básicas, números y unos pocos signos (<span class="mono">/ - ? : ( ) . , ' +</span> y espacio). RemesaLista convierte automáticamente «Muñoz» en «Munoz» y te avisa.</td></tr>
+          <tr><td>Espacios u otros símbolos en la referencia del mandato o en los identificadores del fichero.</td><td>Las referencias no pueden llevar espacios ni empezar o acabar en «/». La herramienta las adapta de forma determinista (la misma referencia produce siempre el mismo resultado) y te avisa de cada cambio.</td></tr>
+          <tr><td>Identificador de acreedor mal escrito o con dígitos de control erróneos.</td><td>Compruébalo con la <a href="/calculadora-identificador-acreedor">calculadora</a> y con tu contrato.</td></tr>
+          <tr><td>Sumas que no cuadran (número de recibos o importe total de cabecera).</td><td>Pasa cuando se edita el XML a mano. Genera siempre el fichero completo de nuevo.</td></tr>
+          <tr><td>Versión del esquema que tu banco no admite.</td><td>Usa <span class="mono">pain.008.001.02</span> salvo que tu banco pida expresamente <span class="mono">pain.008.001.08</span>.</td></tr>
+          <tr><td>Fecha de cobro pasada o demasiado próxima.</td><td>Deja al menos dos o tres días hábiles de margen y revisa el plazo de tu contrato.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Códigos de devolución de recibos más habituales</h2>
+      <p>Cuando un recibo se devuelve, el banco indica un código de motivo normalizado (ISO 20022). Los más frecuentes son:</p>
+      <table>
+        <thead><tr><th scope="col">Código</th><th scope="col">Significado</th><th scope="col">Qué hacer</th></tr></thead>
+        <tbody>
+          <tr><td>AC01</td><td>IBAN incorrecto.</td><td>Pide al socio el IBAN correcto. La validación previa detecta IBAN con dígitos de control erróneos, pero no si la cuenta es de otra persona.</td></tr>
+          <tr><td>AC04</td><td>Cuenta cancelada.</td><td>Solicita una cuenta nueva y un nuevo mandato.</td></tr>
+          <tr><td>AC06</td><td>Cuenta bloqueada.</td><td>Contacta con el socio.</td></tr>
+          <tr><td>AG01</td><td>La cuenta no admite adeudos (p. ej., algunas cuentas de ahorro).</td><td>Solicita otra cuenta.</td></tr>
+          <tr><td>AM04</td><td>Fondos insuficientes.</td><td>Puedes volver a presentar el recibo más adelante, si tu contrato y el mandato lo permiten.</td></tr>
+          <tr><td>MD01</td><td>No existe mandato o no es válido.</td><td>Revisa que la referencia y la fecha de firma sean las del mandato firmado.</td></tr>
+          <tr><td>MD06</td><td>El deudor ha pedido la devolución (dentro de las 8 semanas).</td><td>Habla con el socio; es un derecho del esquema CORE.</td></tr>
+          <tr><td>MD07</td><td>El titular ha fallecido.</td><td>Da de baja el mandato.</td></tr>
+          <tr><td>MS02 / MS03</td><td>Motivo no especificado (por el cliente o por el banco).</td><td>Contacta con el socio para aclararlo.</td></tr>
+          <tr><td>RC01</td><td>BIC incorrecto.</td><td>Deja el BIC vacío (no es obligatorio en SEPA) o corrígelo.</td></tr>
+          <tr><td>AC13</td><td>Cuenta de consumidor en un adeudo B2B.</td><td>Los particulares solo pueden pagar por CORE.</td></tr>
+          <tr><td>SL01</td><td>El socio ha bloqueado los adeudos de tu entidad en su banco.</td><td>Habla con el socio.</td></tr>
+        </tbody>
+      </table>
+      <p>Tu banco te informa de las devoluciones en la banca online o mediante un fichero de devoluciones. Conviene revisarlo después de cada remesa.</p>
+
+      <h2>Comprueba tu remesa antes de enviarla</h2>
+      <p><a href="/">RemesaLista</a> revisa cada fila (IBAN, importes, fechas, referencias y caracteres) y te dice exactamente qué corregir antes de generar el fichero.</p>
+    </article>
+  </main>
+  <footer class="site"><div class="wrap"><nav aria-label="Legal"><a href="/legal/aviso-legal">Aviso legal</a><a href="/legal/privacidad">Privacidad</a><a href="/legal/condiciones">Condiciones</a></nav></div></footer>
+</body>
+</html>

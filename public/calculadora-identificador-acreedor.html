@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora del identificador de acreedor SEPA | RemesaLista</title>
+  <meta name="description" content="Calcula y comprueba gratis el identificador de acreedor SEPA (ES + dígitos de control + sufijo + NIF) que necesitas para cobrar recibos domiciliados. Explicación paso a paso.">
+  <link rel="canonical" href="{{BASE_URL}}/calculadora-identificador-acreedor">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/calc.js"></script>
+</head>
+<body>
+  <header class="site"><div class="wrap"><a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0b6e4f"/><path d="M8 17l5 5 11-12" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>RemesaLista</a>
+    <nav class="top" aria-label="Principal"><a href="/">Generar remesa</a><a href="/guias/remesa-sepa-xml">Guía</a></nav></div></header>
+  <main class="wrap">
+    <article class="guide">
+      <h1>Calculadora del identificador de acreedor SEPA</h1>
+      <p>Para cobrar recibos domiciliados necesitas un <strong>identificador de acreedor</strong> (en inglés, <em>Creditor Identifier</em>). En España tiene esta forma:</p>
+      <p class="result-box">ES + 2 dígitos de control + sufijo (3) + NIF</p>
+      <p>Por ejemplo, <span class="mono">ES37000G12345674</span>: país <span class="mono">ES</span>, dígitos de control <span class="mono">37</span>, sufijo <span class="mono">000</span> y NIF <span class="mono">G12345674</span>.</p>
+
+      <section class="card" aria-labelledby="calc-h">
+        <h2 id="calc-h">Calcular a partir del NIF</h2>
+        <form id="calc-form" class="grid" novalidate>
+          <div class="field"><label for="calc-nif">NIF o CIF de quien cobra</label><input id="calc-nif" type="text" autocomplete="off" spellcheck="false" maxlength="20" placeholder="G12345674"></div>
+          <div class="field"><label for="calc-suffix">Sufijo</label><input id="calc-suffix" type="text" autocomplete="off" spellcheck="false" maxlength="3" value="000"><small>Casi siempre 000. Tu banco te dice si es otro.</small></div>
+          <div class="field span-all"><button class="btn primary" type="submit">Calcular</button></div>
+        </form>
+        <div id="calc-result" aria-live="polite"></div>
+      </section>
+
+      <section class="card" aria-labelledby="check-h">
+        <h2 id="check-h">Comprobar un identificador</h2>
+        <form id="check-form" class="grid" novalidate>
+          <div class="field"><label for="check-id">Identificador de acreedor</label><input id="check-id" type="text" autocomplete="off" spellcheck="false" maxlength="40" placeholder="ES37000G12345674"></div>
+          <div class="field span-all"><button class="btn primary" type="submit">Comprobar</button></div>
+        </form>
+        <div id="check-result" aria-live="polite"></div>
+      </section>
+
+      <h2>Cómo se calculan los dígitos de control</h2>
+      <p>Siguen la norma ISO 7064 (módulo 97-10), la misma familia de cálculo que el IBAN. El sufijo <strong>no</strong> interviene en el cálculo:</p>
+      <ol>
+        <li>Se toma el NIF y se le añaden el código de país y <span class="mono">00</span>: <span class="mono">G12345674ES00</span>.</li>
+        <li>Cada letra se sustituye por un número (A = 10, B = 11 … Z = 35): <span class="mono">16 12345674 14 28 00</span>.</li>
+        <li>Se calcula el resto de dividir ese número entre 97 y se resta de 98. Si sale un solo dígito, se completa con un cero a la izquierda.</li>
+      </ol>
+      <p>Por eso dos entidades con el mismo NIF y distinto sufijo tienen los mismos dígitos de control.</p>
+
+      <h2>¿Quién me da el identificador?</h2>
+      <p>Tu banco, al firmar el contrato de adeudos directos SEPA (a veces lo llaman «contrato de emisión de recibos» o «de presentación de remesas»). Esta calculadora sirve para saber cuál te corresponderá o para detectar un error de tecleo, pero el identificador válido es el que figure en tu contrato.</p>
+
+      <h2>Siguiente paso</h2>
+      <p>Con el identificador ya puedes <a href="/">generar tu remesa de recibos</a> a partir de tu Excel de socios o clientes.</p>
+    </article>
+  </main>
+  <footer class="site"><div class="wrap"><nav aria-label="Legal"><a href="/legal/aviso-legal">Aviso legal</a><a href="/legal/privacidad">Privacidad</a><a href="/legal/condiciones">Condiciones</a></nav></div></footer>
+</body>
+</html>

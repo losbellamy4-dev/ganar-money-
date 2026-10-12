@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generar remesa SEPA XML desde Excel gratis | RemesaLista</title>
+  <meta name="description" content="Convierte tu Excel de socios o clientes en el fichero XML de recibos SEPA (pain.008, Cuaderno 19.14) que pide tu banco. Valida IBAN y mandatos antes de enviarlo. Gratis hasta {{FREE_MAX}} recibos por remesa.">
+  <link rel="canonical" href="{{BASE_URL}}/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <meta property="og:title" content="RemesaLista: tu remesa SEPA lista para el banco">
+  <meta property="og:description" content="De Excel al fichero XML de recibos SEPA en un minuto, con validación previa de IBAN y mandatos.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{BASE_URL}}/">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#herramienta">Ir a la herramienta</a>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0b6e4f"/><path d="M8 17l5 5 11-12" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>RemesaLista</a>
+      <nav class="top" aria-label="Principal">
+        <a href="/guias/remesa-sepa-xml">Guía</a>
+        <a href="/calculadora-identificador-acreedor">Identificador de acreedor</a>
+        <a href="#planes">Planes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap">
+      <h1>Convierte tu Excel en la remesa de recibos SEPA que pide tu banco</h1>
+      <p class="lead">Pega la lista de socios o clientes, revisa los errores antes de que el banco los rechace y descarga el fichero XML de adeudos (pain.008, «Cuaderno 19.14») listo para subir a tu banca online.</p>
+      <ul class="badges">
+        <li>Sin registro</li>
+        <li>Gratis hasta {{FREE_MAX}} recibos por remesa</li>
+        <li>Valida IBAN, mandatos y caracteres</li>
+        <li>No guardamos los datos de tus recibos</li>
+      </ul>
+    </section>
+
+    <div class="wrap" id="herramienta">
+      <noscript><p class="notice error">Esta herramienta necesita JavaScript activado.</p></noscript>
+
+      <section class="card" aria-labelledby="paso1">
+        <h2 id="paso1"><span class="step-num">1</span> Quién cobra (acreedor)</h2>
+        <p class="hint">Los datos de tu asociación, club o empresa. Puedes guardarlos en este navegador para la próxima vez.</p>
+        <fieldset class="grid">
+          <div class="field">
+            <label for="cred-name">Nombre del acreedor</label>
+            <input id="cred-name" type="text" autocomplete="organization" maxlength="120" placeholder="Club Deportivo Ejemplo">
+          </div>
+          <div class="field">
+            <label for="cred-iban">IBAN donde cobras</label>
+            <input id="cred-iban" type="text" inputmode="text" autocomplete="off" spellcheck="false" maxlength="42" placeholder="ES00 0000 0000 0000 0000 0000">
+          </div>
+          <div class="field">
+            <label for="cred-id">Identificador de acreedor SEPA</label>
+            <input id="cred-id" type="text" autocomplete="off" spellcheck="false" maxlength="40" placeholder="ES00000G00000000">
+            <small>Te lo asigna tu banco. <a href="/calculadora-identificador-acreedor">¿No lo tienes? Calcúlalo con tu NIF</a>.</small>
+          </div>
+        </fieldset>
+        <details>
+          <summary>Opciones avanzadas</summary>
+          <div class="grid mt-12">
+            <div class="field">
+              <label for="cred-bic">BIC del acreedor (opcional)</label>
+              <input id="cred-bic" type="text" autocomplete="off" spellcheck="false" maxlength="11" placeholder="Déjalo vacío si no lo sabes">
+            </div>
+            <div class="field">
+              <label for="opt-sequence">Tipo de adeudo por defecto</label>
+              <select id="opt-sequence">
+                <option value="RCUR">RCUR — recurrente (lo habitual en cuotas)</option>
+                <option value="FRST">FRST — primer cobro de un mandato</option>
+                <option value="OOFF">OOFF — cobro único</option>
+                <option value="FNAL">FNAL — último cobro</option>
+              </select>
+              <small>Puedes indicarlo por recibo con una columna «Tipo».</small>
+            </div>
+            <div class="field">
+              <label for="opt-scheme">Esquema</label>
+              <select id="opt-scheme">
+                <option value="CORE">CORE — particulares y empresas</option>
+                <option value="B2B">B2B — solo entre empresas (plan Pro)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="opt-version">Versión del fichero</label>
+              <select id="opt-version">
+                <option value="02">pain.008.001.02 (la más aceptada)</option>
+                <option value="08">pain.008.001.08 (ISO 2019)</option>
+              </select>
+              <small>Si tu banco no te pide otra, usa la primera.</small>
+            </div>
+          </div>
+        </details>
+        <label class="checkbox mt-14"><input id="remember" type="checkbox"> <span>Recordar los datos del acreedor en este navegador (no se envían a ningún sitio hasta que generes el fichero)</span></label>
+      </section>
+
+      <section class="card" aria-labelledby="paso2">
+        <h2 id="paso2"><span class="step-num">2</span> Qué se cobra (recibos)</h2>
+        <p class="hint">Copia las filas de tu Excel o Google Sheets (con o sin la fila de títulos) y pégalas abajo, o sube un CSV. Columnas: <strong>Nombre, IBAN, Importe, Referencia del mandato, Fecha de firma del mandato</strong> y, opcionalmente, Concepto y Tipo.</p>
+        <div class="grid">
+          <div class="field">
+            <label for="collection-date">Fecha de cobro</label>
+            <input id="collection-date" type="date">
+            <small>Mejor con 2 o más días hábiles de margen.</small>
+          </div>
+          <div class="field">
+            <label for="concept">Concepto por defecto</label>
+            <input id="concept" type="text" maxlength="140" placeholder="Cuota de socio octubre">
+            <small>Lo verá cada socio en su extracto (si la fila no trae concepto propio).</small>
+          </div>
+        </div>
+        <div class="field mt-14">
+          <label for="rows">Recibos</label>
+          <textarea id="rows" spellcheck="false" placeholder="Nombre&#9;IBAN&#9;Importe&#9;Referencia mandato&#9;Fecha firma&#9;Concepto&#10;Ana López&#9;ES91 2100 0418 4502 0005 1332&#9;25,00&#9;SOCIO-001&#9;15/01/2024&#9;Cuota octubre"></textarea>
+        </div>
+        <div class="actions">
+          <label class="btn" for="csv-file">Subir CSV</label>
+          <input id="csv-file" class="visually-hidden" type="file" accept=".csv,.txt,text/csv,text/plain">
+          <a class="btn" href="/plantilla-remesa.csv" download id="template-link">Descargar plantilla</a>
+          <button class="btn" type="button" id="load-example">Cargar ejemplo</button>
+          <button class="btn" type="button" id="clear-rows">Vaciar</button>
+        </div>
+        <p class="hint mt-10"><small>¿Tu Excel es .xlsx? Selecciona las celdas, cópialas (Ctrl+C) y pégalas aquí (Ctrl+V), o usa «Guardar como → CSV».</small></p>
+      </section>
+
+      <section class="card" aria-labelledby="paso3">
+        <h2 id="paso3"><span class="step-num">3</span> Revisa y descarga</h2>
+        <div id="status" aria-live="polite">
+          <p class="hint">Cuando completes los pasos anteriores verás aquí el resumen y cualquier error que haya que corregir.</p>
+        </div>
+        <div id="preview"></div>
+        <div class="actions">
+          <button class="btn primary big" type="button" id="generate" disabled>Generar fichero XML</button>
+          <span id="generate-note" class="hint"></span>
+        </div>
+        <div id="result" aria-live="polite"></div>
+      </section>
+
+      <section class="card" id="planes" aria-labelledby="planes-h">
+        <h2 id="planes-h">Planes</h2>
+        <div class="plans">
+          <div class="plan">
+            <h3>Gratis</h3>
+            <p class="price">0 €</p>
+            <ul>
+              <li>Hasta {{FREE_MAX}} recibos por remesa</li>
+              <li>Esquema CORE (cobro a particulares)</li>
+              <li>Validación completa y corrección de caracteres</li>
+              <li>Versiones pain.008.001.02 y .08</li>
+            </ul>
+          </div>
+          <div class="plan highlight">
+            <h3>Pro</h3>
+            <p class="price" id="pro-price">Próximamente</p>
+            <ul>
+              <li>Remesas sin límite de recibos (hasta 5.000 por fichero)</li>
+              <li>Esquema B2B (cobro entre empresas)</li>
+              <li>Todo lo del plan gratuito</li>
+            </ul>
+            <div id="pro-buy"></div>
+            <div class="field mt-14">
+              <label for="license-key">¿Ya tienes licencia? Pega tu clave</label>
+              <input id="license-key" type="text" autocomplete="off" spellcheck="false" maxlength="40" placeholder="RL-XXXXX-XXXXX-XXXXX-XXXXX">
+              <div class="actions"><button class="btn" type="button" id="license-check">Activar</button><button class="btn" type="button" id="license-remove" hidden>Quitar</button></div>
+              <div id="license-status" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+        <div id="waitlist" hidden>
+          <h3 class="mt-20">Avísame cuando Pro esté disponible</h3>
+          <form id="waitlist-form" class="grid" novalidate>
+            <div class="field"><label for="wl-email">Email</label><input id="wl-email" type="email" autocomplete="email" required maxlength="200"></div>
+            <div class="field"><label for="wl-org">Tipo de organización</label>
+              <select id="wl-org"><option value="">Elige una opción</option><option>Asociación / AMPA</option><option>Club deportivo</option><option>Comunidad de propietarios</option><option>Academia / gimnasio</option><option>Empresa / autónomo</option><option>Gestoría / administrador de fincas</option><option>Otra</option></select></div>
+            <div class="field"><label for="wl-bank">Tu banco (opcional)</label><input id="wl-bank" type="text" maxlength="80"></div>
+            <div class="field span-all">
+              <label class="checkbox"><input id="wl-consent" type="checkbox" required> <span>Acepto que guardéis mi email solo para avisarme de RemesaLista Pro, según la <a href="/legal/privacidad">política de privacidad</a>. Puedo pedir su borrado en cualquier momento.</span></label>
+              <div class="actions"><button class="btn primary" type="submit">Avisadme</button></div>
+              <div id="waitlist-status" aria-live="polite"></div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="card faq" aria-labelledby="faq-h">
+        <h2 id="faq-h">Preguntas frecuentes</h2>
+        <details><summary>¿Qué fichero genera?</summary><p>Un XML de adeudos directos SEPA según la norma ISO 20022 (mensaje <span class="mono">pain.008</span>), el formato que en España se conoce como Cuaderno 19.14 XML o «norma 19». Es el que se sube en la banca online, en el apartado de remesas, recibos, adeudos o envío de ficheros.</p></details>
+        <details><summary>¿Lo aceptará mi banco?</summary><p>El fichero cumple el esquema oficial ISO 20022, que es el que usan los bancos de la zona SEPA. Aun así, cada banco puede tener requisitos propios (por ejemplo, la versión del fichero o el sufijo del identificador de acreedor). Te recomendamos que la primera vez hagas una remesa pequeña y confirmes que tu banco la acepta.</p></details>
+        <details><summary>¿Qué hacéis con los datos de mis socios?</summary><p>Los IBAN y nombres se envían cifrados a nuestro servidor solo para construir el fichero y no se guardan en ninguna base de datos ni en los registros. Solo contamos cuántas remesas se generan, sin datos personales. Detalles en la <a href="/legal/privacidad">política de privacidad</a>.</p></details>
+        <details><summary>¿Necesito un contrato con el banco?</summary><p>Sí. Para cobrar recibos domiciliados necesitas un contrato de adeudos SEPA con tu banco (que te dará el identificador de acreedor) y un mandato firmado por cada socio o cliente. RemesaLista solo prepara el fichero; el cobro lo hace tu banco.</p></details>
+        <details><summary>¿Qué es la referencia del mandato?</summary><p>El código único que identifica la orden de domiciliación firmada por cada socio (por ejemplo, su número de socio). Debe ser siempre el mismo en todas las remesas de ese socio. Más en la <a href="/guias/remesa-sepa-xml">guía para generar una remesa</a>.</p></details>
+        <details><summary>Mi banco me ha rechazado una remesa, ¿por qué?</summary><p>Revisa la <a href="/guias/errores-remesa-sepa">lista de errores más comunes y cómo evitarlos</a>.</p></details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <nav aria-label="Pie de página"><a href="/guias/remesa-sepa-xml">Cómo generar una remesa SEPA</a><a href="/guias/errores-remesa-sepa">Errores frecuentes</a><a href="/calculadora-identificador-acreedor">Calculadora de identificador de acreedor</a></nav>
+      <nav aria-label="Legal" class="mt-8"><a href="/legal/aviso-legal">Aviso legal</a><a href="/legal/privacidad">Privacidad</a><a href="/legal/condiciones">Condiciones</a></nav>
+      <p>RemesaLista prepara ficheros; no es una entidad de pago ni presta servicios de cobro. © {{YEAR}} {{OWNER_NAME}}.</p>
+    </div>
+  </footer>
+</body>
+</html>

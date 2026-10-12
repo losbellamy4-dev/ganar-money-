@@ -17,5 +17,8 @@
     "test": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 test/*.test.js",
     "test:e2e": "node --disable-warning=ExperimentalWarning --test test/e2e/*.e2e.js"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "playwright-core": "1.56.1"
+  }
 }
