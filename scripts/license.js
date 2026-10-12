@@ -4,6 +4,8 @@
 //   npm run license -- list
 //   npm run license -- revoke --id 3
 //   npm run license -- verify --key RL-XXXXX-XXXXX-XXXXX-XXXXX
+//   npm run license -- interest-list                 (lista de espera, con fecha de consentimiento)
+//   npm run license -- interest-delete --email x@y.es (derecho de supresión RGPD)
 import { parseArgs } from 'node:util';
 import { loadConfig } from '../src/server/config.js';
 import { openDatabase, transaction } from '../src/server/db.js';
@@ -43,8 +45,13 @@ try {
     console.log(n ? `Licencia #${values.id} revocada.` : 'No había ninguna licencia activa con ese id.');
   } else if (command === 'verify') {
     console.log(verifyLicense(db, config, values.key));
+  } else if (command === 'interest-list') {
+    console.table(db.prepare('SELECT email, feature, org_type, bank, consent_at FROM interest ORDER BY created_at').all());
+  } else if (command === 'interest-delete') {
+    const n = db.prepare('DELETE FROM interest WHERE email = ?').run(String(values.email ?? '').trim().toLowerCase()).changes;
+    console.log(n ? `Eliminados ${n} registro(s) de la lista de espera.` : 'No había registros con ese email.');
   } else {
-    console.log('Comandos: issue | list | revoke | verify (ver cabecera de scripts/license.js)');
+    console.log('Comandos: issue | list | revoke | verify | interest-list | interest-delete (ver cabecera de scripts/license.js)');
     process.exitCode = 1;
   }
 } catch (e) {

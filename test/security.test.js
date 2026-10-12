@@ -109,3 +109,19 @@ describe('Salvaguardas de producción', () => {
     assert.match(good.stdout, /Configuración de producción completa/);
   });
 });
+
+describe('Derechos RGPD sobre la lista de espera', () => {
+  test('la CLI lista y borra los emails de la lista de espera', async () => {
+    const s = await startTestServer();
+    try {
+      await s.post('/api/interest', { email: 'borrame@example.com', consent: true });
+      const env = { PATH: process.env.PATH, DATA_DIR: s.dir, APP_SECRET: 'test-secret-0123456789abcdef0123456789abcdef' };
+      const cli = (...args) => spawnSync(process.execPath, ['--disable-warning=ExperimentalWarning', 'scripts/license.js', ...args], { cwd: ROOT, env, encoding: 'utf8' });
+      assert.match(cli('interest-list').stdout, /borrame@example\.com/);
+      assert.match(cli('interest-delete', '--email', 'BORRAME@example.com ').stdout, /Eliminados 1/);
+      assert.equal(s.db.prepare('SELECT COUNT(*) AS n FROM interest').get().n, 0);
+    } finally {
+      await s.close();
+    }
+  });
+});

@@ -36,6 +36,7 @@
 - **`/healthz` público mínimo:** el detalle (trabajos, cola de correo) requiere `HEALTH_TOKEN`, comparado en tiempo constante.
 - **Arranque seguro en producción:** el servidor se niega a arrancar sin `APP_SECRET` o con pagos activos y correo simulado. `npm run preflight` bloquea la publicación si falta configuración.
 - **Sin superficie de administración web:** las licencias se gestionan por CLI con acceso al servidor.
+- **Derechos RGPD:** `npm run license -- interest-list` permite consultar y `npm run license -- interest-delete --email …` borrar los datos de la lista de espera. Los IBAN de las remesas no se conservan, así que no hay nada que entregar ni suprimir.
 - **Dependencias:** cero en producción. `npm audit` informa 0 vulnerabilidades (la única dependencia de desarrollo es `playwright-core`).
 
 ## Lo que NO se ha podido hacer (y por qué)

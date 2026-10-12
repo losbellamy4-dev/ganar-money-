@@ -81,4 +81,4 @@ Hipótesis: gestorías y administradores de fincas que preparan remesas para muc
 
 | Fecha | Experimento | Resultado | Decisión |
 |---|---|---|---|
-| 2026-10-12 | EXP-00 | Pasa (79 pruebas automáticas; 3 defectos encontrados y corregidos) | Continuar |
+| 2026-10-12 | EXP-00 | Pasa (81 pruebas automáticas; 3 defectos del núcleo encontrados y corregidos) | Continuar |

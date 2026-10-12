@@ -6,7 +6,7 @@
 - [x] Servidor con límites de plan, licencias, webhook de Stripe, lista de espera y métricas sin datos personales.
 - [x] Automatizaciones: correo con reintentos y alertas, caducidad de licencias, limpieza, copias e informe diario.
 - [x] Interfaz web, calculadora, 2 guías y textos legales (plantilla).
-- [x] 69 pruebas automáticas y 10 E2E.
+- [x] 71 pruebas automáticas y 10 E2E.
 
 ## Fase 2 — Publicación y validación de demanda (bloqueada por decisiones humanas)
 | Paso | Depende de | Quién |

@@ -7,7 +7,7 @@
 | Dimensión | Estado | Justificación verificable |
 |---|---|---|
 | **Desarrollo técnico del MVP** | **≈ 92 %** (12 de 13 tareas) | Tabla de tareas. Falta la lectura directa de `.xlsx`, aplazada (se cubre con copiar y pegar o CSV). |
-| **Pruebas completadas** | **≈ 70 %** de las categorías de prueba (14 de 20; 2 parciales) | 80 pruebas automáticas pasan (70 unitarias o de integración y 10 E2E). Pendientes: Stripe y Resend reales, compra en modo test, construcción de la imagen Docker, DAST, aceptación por bancos y otros navegadores. |
+| **Pruebas completadas** | **≈ 70 %** de las categorías de prueba (14 de 20; 2 parciales) | 81 pruebas automáticas pasan (71 unitarias o de integración y 10 E2E). Pendientes: Stripe y Resend reales, compra en modo test, construcción de la imagen Docker, DAST, aceptación por bancos y otros navegadores. |
 | **Automatización verificada** | **5 de 5 tareas programadas y 2 de 2 flujos de eventos**, verificados en un proceso real en modo producción **con proveedores simulados** | `test/e2e/automation.e2e.js`. **0 % verificado contra proveedores reales.** |
 | **Despliegue** | **No desplegado** (configuración preparada y sin probar) | `Dockerfile`, `fly.toml` y `deploy/`. No hay demonio Docker ni cuentas. |
 | **Validación comercial** | **Ninguna** | Sin usuarios no hay datos. Los experimentos están diseñados con umbrales previos (`EXPERIMENTS.md`). |
@@ -31,7 +31,7 @@
 | Adaptación a móvil y accesibilidad básica | ✅ | Capturas en `docs/screenshots/` | E2E de 375 px sin desbordamiento; etiquetas, `aria-live`, foco visible | Pasa | Sin auditoría de accesibilidad completa | Auditoría con lector de pantalla |
 | SEO (títulos, canónicas, sitemap, robots, 3 páginas útiles) | ✅ | `public/` | Plantillas probadas | Hecho | Sin indexar | Search Console |
 | Textos legales | ⚠️ plantilla | `public/legal/` | Prueba de marcadores «PENDIENTE» | Pendiente de datos del titular | **Requiere persona y revisión profesional** | Completar `OWNER_*` |
-| Seguridad (revisión y pruebas) | ✅ parcial | `SECURITY.md`, `test/security.test.js` | 7 pruebas específicas; `npm audit`: 0 | 5 problemas corregidos | **DAST (HawkScan) no ejecutado**: sin CLI, sin clave y dominio bloqueado | DAST contra *staging* |
+| Seguridad (revisión y pruebas) | ✅ parcial | `SECURITY.md`, `test/security.test.js` | 8 pruebas específicas (incluido el borrado RGPD de la lista de espera); `npm audit`: 0 | 5 problemas corregidos | **DAST (HawkScan) no ejecutado**: sin CLI, sin clave y dominio bloqueado | DAST contra *staging* |
 | Rendimiento | ✅ | Prueba con 5.000 recibos | Menos de 3 s por la API (≈125 ms del núcleo) | Pasa | — | — |
 | Instalación limpia | ✅ | `npm ci` desde cero | Todas las pruebas repetidas | Pasa | — | — |
 | Configuración de despliegue | ⚠️ escrita | `Dockerfile`, `fly.toml`, `deploy/`, `.env.example`, `scripts/preflight.js` | Preflight probado; arranque seguro probado | Imagen **no construida** | Sin Docker ni cuentas | Desplegar con autorización |
@@ -41,7 +41,7 @@
 
 ## Pruebas: inventario
 
-Comandos: `npm test` (70) y `npm run test:e2e` (10). Todas pasan a 2026-10-12, también tras una instalación limpia.
+Comandos: `npm test` (71) y `npm run test:e2e` (10). Todas pasan a 2026-10-12, también tras una instalación limpia.
 
 | Categoría (Fase 11) | Estado |
 |---|---|

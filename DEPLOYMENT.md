@@ -20,7 +20,7 @@
 ```bash
 npm install          # solo instala la dependencia de desarrollo (playwright-core)
 npm start            # http://localhost:3000 (correos simulados en el log; datos en ./data)
-npm test             # 69 pruebas unitarias y de integración
+npm test             # 71 pruebas unitarias y de integración
 npm run test:e2e     # 10 pruebas E2E (requiere Chromium; ver CHROMIUM_PATH)
 ```
 

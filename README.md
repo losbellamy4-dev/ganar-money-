@@ -36,7 +36,7 @@ Convierte un Excel de socios o clientes en el **fichero XML de recibos SEPA** (I
 ```bash
 npm install
 npm start                      # http://localhost:3000
-npm test                       # unitarias + integración (70)
+npm test                       # unitarias + integración (71)
 npm run test:e2e               # navegador real (10)
 npm run license -- issue --email cliente@ejemplo.es --days 365   # requiere APP_SECRET
 npm run preflight              # comprueba la configuración de producción
