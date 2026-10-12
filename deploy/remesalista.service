@@ -1,0 +1,23 @@
+# /etc/systemd/system/remesalista.service — despliegue en un VPS (Debian/Ubuntu) detrás de Caddy.
+[Unit]
+Description=RemesaLista
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=remesalista
+WorkingDirectory=/opt/remesalista
+EnvironmentFile=/etc/remesalista.env
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning src/server/index.js
+Restart=always
+RestartSec=5
+# Endurecimiento básico
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/remesalista
+
+[Install]
+WantedBy=multi-user.target

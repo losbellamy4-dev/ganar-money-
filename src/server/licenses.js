@@ -39,7 +39,7 @@ function licenseEmail({ key, baseUrl, expiresAt }) {
  * Si ya existe una licencia con la misma (source, externalRef) no crea otra: devuelve {duplicate: true}.
  */
 export function issueLicense(db, config, { email, plan = 'pro', source, externalRef = null, expiresAt = null, notes = null, sendEmail = true, now = new Date() }) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email ?? ''))) throw new Error('Email no válido para la licencia.');
+  if (String(email ?? '').length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email ?? ''))) throw new Error('Email no válido para la licencia.');
   if (externalRef) {
     const existing = db.prepare('SELECT id FROM licenses WHERE source = ? AND external_ref = ?').get(source, externalRef);
     if (existing) return { duplicate: true, id: existing.id };

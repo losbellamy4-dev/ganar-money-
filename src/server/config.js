@@ -53,6 +53,7 @@ export function loadConfig(env = process.env) {
       email: env.OWNER_EMAIL ?? '',
     },
 
+    healthToken: env.HEALTH_TOKEN ?? '',
     schedulerEnabled: env.SCHEDULER !== 'off',
     version: env.APP_VERSION ?? '0.1.0',
   };

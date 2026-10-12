@@ -1,0 +1,9 @@
+# /etc/caddy/Caddyfile — HTTPS automático (Let's Encrypt) y proxy al proceso Node.
+tudominio.es {
+	encode gzip
+	reverse_proxy 127.0.0.1:8080
+}
+
+www.tudominio.es {
+	redir https://tudominio.es{uri} permanent
+}

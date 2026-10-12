@@ -15,7 +15,7 @@ describe('API de generación', () => {
   test('healthz y config', async () => {
     const h = await (await fetch(`${s.base}/healthz`)).json();
     assert.equal(h.status, 'ok');
-    assert.equal(h.paymentsConfigured, true);
+    assert.deepEqual(h.problems, []);
     const c = await (await fetch(`${s.base}/api/config`)).json();
     assert.equal(c.freeMaxTransactions, 25);
     assert.equal(c.proAvailable, true);
@@ -248,5 +248,27 @@ describe('Lista de espera, eventos y verificación de licencias', () => {
     assert.deepEqual(r, { valid: false, reason: 'expired' });
     r = await (await s.post('/api/license/verify', { key: 'basura' })).json();
     assert.deepEqual(r, { valid: false, reason: 'format' });
+  });
+});
+
+describe('Rendimiento', () => {
+  test('remesa máxima Pro (5.000 recibos) por la API en menos de 3 s y con XML válido', async () => {
+    const s = await startTestServer();
+    try {
+      const { key } = transaction(s.db, () => issueLicense(s.db, s.config, { email: 'big@example.com', source: 'manual', now: s.clock.current }));
+      const started = performance.now();
+      const res = await s.post('/api/generate', { remittance: sampleInput({ transactions: manyTransactions(5000) }), licenseKey: key });
+      const ms = performance.now() - started;
+      assert.equal(res.status, 200);
+      const body = await res.json();
+      assert.equal(body.summary.count, 5000);
+      assert.ok(ms < 3000, `tardó ${ms.toFixed(0)} ms`);
+      assert.equal(xsdValidate(body.xml, '02').ok, true);
+      // Por encima del máximo absoluto se rechaza incluso con licencia.
+      const over = await s.post('/api/generate', { remittance: sampleInput({ transactions: manyTransactions(5001) }), licenseKey: key });
+      assert.equal(over.status, 422);
+    } finally {
+      await s.close();
+    }
   });
 });

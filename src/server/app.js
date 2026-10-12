@@ -11,6 +11,13 @@ import { verifyStripeSignature, handleStripeEvent, recordWebhookFailure } from '
 import { clientKey, hit } from './ratelimit.js';
 import { outboxStats } from './outbox.js';
 import * as logger from './log.js';
+import { timingSafeEqual } from 'node:crypto';
+
+function safeEqual(a, b) {
+  const x = Buffer.from(a);
+  const y = Buffer.from(b);
+  return x.length === y.length && timingSafeEqual(x, y);
+}
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const PUBLIC_DIR = join(ROOT, 'public');
@@ -63,7 +70,8 @@ export function createApp({ config, db, clock = () => new Date(), emailerInfo = 
 
   const clientIp = (req) => {
     if (config.trustProxy) {
-      const fwd = String(req.headers['x-forwarded-for'] ?? '').split(',')[0].trim();
+      // La última IP de la lista es la que añadió nuestro proxy; las anteriores las puede inventar el cliente.
+      const fwd = String(req.headers['x-forwarded-for'] ?? '').split(',').map((x) => x.trim()).filter(Boolean).at(-1);
       if (fwd) return fwd;
     }
     return req.socket.remoteAddress ?? 'unknown';
@@ -136,7 +144,12 @@ export function createApp({ config, db, clock = () => new Date(), emailerInfo = 
       if (!BROWSER_MODULES.has(name)) throw new HttpError(404, 'No encontrado.');
       return serveFile(res, join(SEPA_DIR, name), { cache: 'public, max-age=300' });
     }
-    let rel = decodeURIComponent(pathname);
+    let rel;
+    try {
+      rel = decodeURIComponent(pathname);
+    } catch {
+      throw new HttpError(400, 'Ruta no válida.');
+    }
     if (rel.includes('\0')) throw new HttpError(400, 'Ruta no válida.');
     if (rel.endsWith('/')) rel += 'index.html';
     if (!extname(rel)) rel += '.html';
@@ -182,6 +195,7 @@ export function createApp({ config, db, clock = () => new Date(), emailerInfo = 
     if (body.licenseKey) {
       const lic = verifyLicense(db, config, body.licenseKey, clock());
       if (!lic.valid) {
+        limit(req, 'lic', 30);
         const why = { revoked: 'ha sido revocada', expired: 'ha caducado' }[lic.reason] ?? 'no es válida';
         throw new HttpError(402, `La clave de licencia ${why}. Puedes seguir usando el plan gratuito (hasta ${config.freeMaxTransactions} recibos por remesa) quitando la clave.`, { code: 'LICENSE_INVALID' });
       }
@@ -241,6 +255,7 @@ export function createApp({ config, db, clock = () => new Date(), emailerInfo = 
     try {
       const r = handleStripeEvent(db, config, event, clock());
       logger.info('stripe_webhook', { id: event.id, type: event.type, ...r });
+      if (r.action === 'license_issued') scheduler?.kick('send-emails');
       return json(res, 200, { received: true, ...r });
     } catch (e) {
       recordWebhookFailure(db, config, event, e, clock());
@@ -253,7 +268,13 @@ export function createApp({ config, db, clock = () => new Date(), emailerInfo = 
   const routes = {
     // 200 mientras el proceso y la base de datos respondan (para no provocar reinicios en bucle por un
     // correo fallido); los problemas que requieren atención humana van en `status`/`problems`.
-    'GET /healthz': (req, res) => json(res, 200, health()),
+    // El detalle (trabajos, cola de correo) solo se muestra con HEALTH_TOKEN.
+    'GET /healthz': (req, res) => {
+      const h = health();
+      const auth = String(req.headers.authorization ?? '');
+      const detailed = config.healthToken && safeEqual(auth, `Bearer ${config.healthToken}`);
+      return json(res, 200, detailed ? h : { status: h.status, problems: h.problems, version: h.version, time: h.time });
+    },
     'GET /api/config': (req, res) => json(res, 200, {
       freeMaxTransactions: config.freeMaxTransactions,
       proMaxTransactions: config.proMaxTransactions,

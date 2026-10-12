@@ -1,0 +1,35 @@
+# Despliegue en Fly.io (una sola máquina con volumen persistente para SQLite).
+# Cambia `app` por un nombre libre. Los secretos se definen con `fly secrets set` (ver DEPLOYMENT.md).
+app = "remesalista"
+primary_region = "mad"
+
+[build]
+
+[env]
+  NODE_ENV = "production"
+  DATA_DIR = "/data"
+  PORT = "8080"
+  TRUST_PROXY = "1"
+
+[[mounts]]
+  source = "remesalista_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # El planificador (correos, copias, informes) vive en el proceso: la máquina no debe apagarse.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    path = "/healthz"
+    timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

@@ -74,6 +74,12 @@ export function createScheduler({ db, config, jobs, clock = () => new Date(), ti
   return {
     tick,
     runJob,
+    // Ejecuta ya un trabajo concreto (p. ej. enviar la licencia nada más pagar) sin esperar al siguiente ciclo.
+    kick(name) {
+      const job = jobs.find((j) => j.name === name);
+      if (!job) return Promise.resolve(null);
+      return runJob(job, { force: true }).catch((e) => logger.error('scheduler_kick_failed', { job: name, error: e.message }));
+    },
     lastTick: () => lastTick,
     start() {
       if (timer) return;

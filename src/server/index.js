@@ -14,6 +14,12 @@ if (config.production && !config.appSecret) {
   process.exit(1);
 }
 
+if (config.production && config.checkoutUrl && config.emailProvider === 'log') {
+  // Sin correo real, un cliente que paga no recibiría su clave: mejor no arrancar que fallar en silencio.
+  logger.error('config_invalid', { error: 'Pagos activos con EMAIL_PROVIDER=log. Configura RESEND_API_KEY o desactiva CHECKOUT_URL.' });
+  process.exit(1);
+}
+
 const db = openDatabase(config.dbPath);
 const emailer = createEmailer(config);
 const scheduler = config.schedulerEnabled ? createScheduler({ db, config, jobs: createJobs({ db, config, emailer }) }) : null;
