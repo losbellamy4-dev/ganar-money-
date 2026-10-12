@@ -1,0 +1,99 @@
+{
+  "_comment": "Puntuaciones 1-5 (5 = más favorable para nosotros). En criterios de coste, competencia, complejidad, dependencia y riesgo, 5 significa coste/competencia/complejidad/dependencia/riesgo BAJOS. Cada puntuación se justifica en OPPORTUNITIES.md con referencias a RESEARCH.md. Fecha de evaluación: 2026-10-12.",
+  "criteria": [
+    { "id": "demanda", "label": "Demanda demostrable", "weight": 14 },
+    { "id": "competencia", "label": "Competencia (5 = baja)", "weight": 7 },
+    { "id": "diferenciacion", "label": "Diferenciación posible", "weight": 6 },
+    { "id": "coste_inicial", "label": "Coste inicial (5 = bajo)", "weight": 5 },
+    { "id": "coste_mensual", "label": "Coste mensual (5 = bajo)", "weight": 6 },
+    { "id": "tiempo_dev", "label": "Tiempo de desarrollo (5 = corto)", "weight": 5 },
+    { "id": "complejidad", "label": "Complejidad técnica (5 = baja)", "weight": 4 },
+    { "id": "automatizacion", "label": "Posibilidad de automatización", "weight": 8 },
+    { "id": "captacion", "label": "Facilidad para conseguir usuarios", "weight": 10 },
+    { "id": "pago", "label": "Disposición a pagar", "weight": 12 },
+    { "id": "margen", "label": "Margen potencial", "weight": 6 },
+    { "id": "crecimiento", "label": "Potencial de crecimiento", "weight": 4 },
+    { "id": "dependencia", "label": "Dependencia de terceros (5 = baja)", "weight": 4 },
+    { "id": "legal", "label": "Riesgo legal (5 = bajo)", "weight": 4 },
+    { "id": "recursos", "label": "Compatibilidad con recursos disponibles", "weight": 5 }
+  ],
+  "alternative_weightings": {
+    "pesos_iguales": "all_equal",
+    "prioridad_demanda_y_pago": { "demanda": 25, "pago": 25, "captacion": 15, "competencia": 10, "margen": 10, "recursos": 5, "automatizacion": 5, "legal": 5 },
+    "prioridad_coste_y_rapidez": { "coste_inicial": 15, "coste_mensual": 15, "tiempo_dev": 15, "complejidad": 10, "recursos": 15, "automatizacion": 10, "demanda": 10, "pago": 10 }
+  },
+  "opportunities": [
+    {
+      "id": "sepa",
+      "name": "Generador de remesas SEPA (Excel/CSV → XML pain.008) para asociaciones, clubes y pymes en España",
+      "category": "Micro-SaaS / herramienta web freemium",
+      "scores": { "demanda": 4, "competencia": 2, "diferenciacion": 3, "coste_inicial": 5, "coste_mensual": 4, "tiempo_dev": 4, "complejidad": 4, "automatizacion": 5, "captacion": 3, "pago": 4, "margen": 5, "crecimiento": 2, "dependencia": 5, "legal": 3, "recursos": 5 }
+    },
+    {
+      "id": "pdf_extractos",
+      "name": "Conversor de extractos bancarios PDF → Excel/CSV",
+      "category": "Herramienta web / SaaS por uso",
+      "scores": { "demanda": 5, "competencia": 1, "diferenciacion": 2, "coste_inicial": 4, "coste_mensual": 3, "tiempo_dev": 2, "complejidad": 2, "automatizacion": 4, "captacion": 2, "pago": 4, "margen": 3, "crecimiento": 4, "dependencia": 2, "legal": 3, "recursos": 2 }
+    },
+    {
+      "id": "calculadoras_seo",
+      "name": "Sitio de calculadoras fiscales/laborales en español (tráfico orgánico + anuncios/afiliación)",
+      "category": "Sitio especializado con tráfico orgánico",
+      "scores": { "demanda": 4, "competencia": 2, "diferenciacion": 2, "coste_inicial": 5, "coste_mensual": 5, "tiempo_dev": 4, "complejidad": 4, "automatizacion": 4, "captacion": 2, "pago": 1, "margen": 4, "crecimiento": 3, "dependencia": 3, "legal": 3, "recursos": 4 }
+    },
+    {
+      "id": "plantillas",
+      "name": "Plantillas descargables (Excel/Notion) para autónomos",
+      "category": "Producto digital descargable",
+      "scores": { "demanda": 3, "competencia": 1, "diferenciacion": 2, "coste_inicial": 5, "coste_mensual": 5, "tiempo_dev": 5, "complejidad": 5, "automatizacion": 4, "captacion": 2, "pago": 2, "margen": 4, "crecimiento": 2, "dependencia": 3, "legal": 4, "recursos": 4 }
+    },
+    {
+      "id": "ia_wrapper",
+      "name": "Herramienta de IA generativa de propósito concreto (wrapper sobre API de LLM)",
+      "category": "Herramienta basada en IA",
+      "scores": { "demanda": 3, "competencia": 1, "diferenciacion": 2, "coste_inicial": 4, "coste_mensual": 2, "tiempo_dev": 4, "complejidad": 3, "automatizacion": 4, "captacion": 2, "pago": 3, "margen": 2, "crecimiento": 4, "dependencia": 1, "legal": 3, "recursos": 1 }
+    },
+    {
+      "id": "verifactu",
+      "name": "Software de facturación conforme a VeriFactu para autónomos",
+      "category": "SaaS por suscripción",
+      "scores": { "demanda": 5, "competencia": 1, "diferenciacion": 2, "coste_inicial": 3, "coste_mensual": 3, "tiempo_dev": 1, "complejidad": 1, "automatizacion": 4, "captacion": 2, "pago": 4, "margen": 4, "crecimiento": 4, "dependencia": 2, "legal": 1, "recursos": 1 }
+    },
+    {
+      "id": "resenas",
+      "name": "Automatización de solicitudes de reseñas (Google) para negocios locales",
+      "category": "Automatización para pequeños negocios",
+      "scores": { "demanda": 3, "competencia": 2, "diferenciacion": 2, "coste_inicial": 4, "coste_mensual": 2, "tiempo_dev": 3, "complejidad": 3, "automatizacion": 4, "captacion": 1, "pago": 3, "margen": 3, "crecimiento": 3, "dependencia": 2, "legal": 2, "recursos": 2 }
+    },
+    {
+      "id": "extension",
+      "name": "Extensión de navegador freemium (problema por concretar)",
+      "category": "Herramienta gratuita con funciones prémium",
+      "scores": { "demanda": 2, "competencia": 3, "diferenciacion": 3, "coste_inicial": 4, "coste_mensual": 5, "tiempo_dev": 4, "complejidad": 3, "automatizacion": 4, "captacion": 3, "pago": 2, "margen": 4, "crecimiento": 3, "dependencia": 2, "legal": 4, "recursos": 3 }
+    },
+    {
+      "id": "api_validacion",
+      "name": "API de validación de IBAN/NIF de pago por uso",
+      "category": "API / servicio automatizado",
+      "scores": { "demanda": 3, "competencia": 1, "diferenciacion": 1, "coste_inicial": 5, "coste_mensual": 4, "tiempo_dev": 5, "complejidad": 5, "automatizacion": 5, "captacion": 2, "pago": 1, "margen": 3, "crecimiento": 2, "dependencia": 4, "legal": 4, "recursos": 5 }
+    },
+    {
+      "id": "norma43",
+      "name": "Conversor de ficheros Norma 43 (extractos bancarios españoles) → Excel/OFX",
+      "category": "Herramienta web",
+      "scores": { "demanda": 2, "competencia": 4, "diferenciacion": 3, "coste_inicial": 5, "coste_mensual": 5, "tiempo_dev": 5, "complejidad": 4, "automatizacion": 5, "captacion": 2, "pago": 1, "margen": 5, "crecimiento": 1, "dependencia": 5, "legal": 3, "recursos": 5 }
+    },
+    {
+      "id": "afiliacion",
+      "name": "Web de comparación y afiliación en un nicho",
+      "category": "Afiliación y comparación de productos",
+      "scores": { "demanda": 3, "competencia": 1, "diferenciacion": 2, "coste_inicial": 4, "coste_mensual": 4, "tiempo_dev": 3, "complejidad": 4, "automatizacion": 3, "captacion": 1, "pago": 2, "margen": 4, "crecimiento": 3, "dependencia": 2, "legal": 3, "recursos": 3 }
+    },
+    {
+      "id": "recordatorios",
+      "name": "Recordatorios de citas por WhatsApp para peluquerías y clínicas",
+      "category": "Automatización para pequeños negocios",
+      "scores": { "demanda": 4, "competencia": 1, "diferenciacion": 2, "coste_inicial": 4, "coste_mensual": 2, "tiempo_dev": 2, "complejidad": 2, "automatizacion": 4, "captacion": 1, "pago": 3, "margen": 3, "crecimiento": 3, "dependencia": 1, "legal": 2, "recursos": 1 }
+    }
+  ]
+}

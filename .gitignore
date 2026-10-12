@@ -1,0 +1,12 @@
+node_modules/
+data/
+backups/
+.venv/
+*.sqlite
+*.sqlite-*
+*.db
+.env
+.env.*
+!.env.example
+test-results/
+coverage/

@@ -1,0 +1,21 @@
+{
+  "name": "remesalista",
+  "version": "0.1.0",
+  "description": "Generador de remesas SEPA (pain.008) desde Excel/CSV con validación previa. Sin dependencias de producción.",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server/index.js",
+    "dev": "NODE_ENV=development node --disable-warning=ExperimentalWarning --watch src/server/index.js",
+    "worker:once": "node --disable-warning=ExperimentalWarning src/worker/run-once.js",
+    "license": "node --disable-warning=ExperimentalWarning scripts/license.js",
+    "preflight": "node --disable-warning=ExperimentalWarning scripts/preflight.js",
+    "score": "node scripts/score-opportunities.mjs",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 test/*.test.js",
+    "test:e2e": "node --disable-warning=ExperimentalWarning --test test/e2e/*.e2e.js"
+  },
+  "license": "UNLICENSED"
+}
